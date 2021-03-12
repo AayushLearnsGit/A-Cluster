@@ -1,2 +1,7 @@
 # A-Cluster
-This repository ( I would call it a personal collection of the work but won't call it a portfolio - better: 'Drive' ) contains the tasks given by the institute and some of them are done and others are not.
+
+____
+
+You can directly open the file which you are interested in. Just click on the file name and look for it.  
+The <font color= 'green'>Answers </font> are in Green and the rest is black.
+
