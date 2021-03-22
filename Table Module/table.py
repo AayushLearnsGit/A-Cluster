@@ -7,13 +7,27 @@ class Table():
     rows or entries and the length of each record will be the
     length of columns.
     
-    >>> Table( [[10, 20, 30],
-                [40, 50, 60],
-                [70, 80, 90]] )
+    >>> tbl = Table( [[10, 20, 30],
+                      [40, 50, 60],
+                      [70, 80, 90]] )
     
+    >>> tbl.construct()
+
     >>> +----+----+----+
         | 10 | 20 | 30 |
         | 40 | 50 | 60 |
+        | 70 | 80 | 90 |
+        +----+----+----+
+    
+    You can also toggle the visibility of rows.
+    
+    >>> tbl.construct(rows= True)
+    
+    >>> +----+----+----+
+        | 10 | 20 | 30 |
+        ----------------
+        | 40 | 50 | 60 |
+        ----------------
         | 70 | 80 | 90 |
         +----+----+----+'''
 
@@ -50,8 +64,8 @@ class Table():
         print()
         
     def construct(self, rows= False):
-        
         params = {'sep':'', 'end':''}
+        
         if rows == True:
             width_sum = sum(map(lambda x: x + 2, self._max_width))
             row_design = ' ' + '-' * ((width_sum) + ((self._init_length - 1) * 3) + 4)
@@ -74,8 +88,7 @@ class Table():
 
             print()
             print(row_design) if rows == True and idx != self._rows - 1  else ''
-
-
+        
         self._header_footer()
 
     def __repr__(self):
@@ -86,6 +99,3 @@ class Table():
 
 if __name__ == '__main__':
     print("Hey! Please use this module as 'Module' - Don't run it! ∞ Aayush Shah")
-    import numpy as np
-    data = np.random.randn(10, 2)
-    Table(data, headers= 'A B'.split()).construct(rows= True)
