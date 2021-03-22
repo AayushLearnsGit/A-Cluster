@@ -18,11 +18,11 @@ class Table():
         +----+----+----+'''
 
     def __init__(self, tensor, headers= None):
-        init_length = len(tensor[0])
-        self._max_width = [ 0 for i in range(init_length) ]
+        self._init_length = len(tensor[0])
+        self._max_width = [ 0 for i in range(self._init_length) ]
 
         for entry in tensor:
-            if init_length != len(entry):
+            if self._init_length != len(entry):
                 raise NotEqualLengthError("The length of all entries must be the same!")
             else:
                 for i, elem in enumerate(entry):
@@ -30,7 +30,7 @@ class Table():
                         self._max_width[i] = len(str(elem))
         
         if headers:
-            if len(headers) != init_length:
+            if len(headers) != self._init_length:
                 raise NotEqualLengthError("The header length is not matching with the data provided.")
             else:
                 for i, header in enumerate(headers):
@@ -49,26 +49,32 @@ class Table():
             print(' + ', **params)
         print()
         
-    def construct(self):
-        params = {'sep':'', 'end':''}
+    def construct(self, rows= False):
         
+        params = {'sep':'', 'end':''}
+        if rows == True:
+            width_sum = sum(map(lambda x: x + 2, self._max_width))
+            row_design = ' ' + '-' * ((width_sum) + ((self._init_length - 1) * 3) + 4)
+
         if self._header:
             self._header_footer()
-            if self._header:
+            print(' | ', **params)
+            for i, header in enumerate(self._header):
+                print(header.center(self._max_width[i] + 2), **params)
                 print(' | ', **params)
-                for i, header in enumerate(self._header):
-                    print(header.center(self._max_width[i] + 2), **params)
-                    print(' | ', **params)
-                print()
+            print()
         
         self._header_footer()
-        
-        for entry in self._tensor:
+
+        for idx, entry in enumerate(self._tensor):
             print(' | ', **params)
             for i, elem in enumerate(entry):
                 print(str(elem).rjust(self._max_width[i] + 2), **params)
                 print(' | ', **params)
+
             print()
+            print(row_design) if rows == True and idx != self._rows - 1  else ''
+
 
         self._header_footer()
 
@@ -80,3 +86,6 @@ class Table():
 
 if __name__ == '__main__':
     print("Hey! Please use this module as 'Module' - Don't run it! ∞ Aayush Shah")
+    import numpy as np
+    data = np.random.randn(10, 2)
+    Table(data, headers= 'A B'.split()).construct(rows= True)
